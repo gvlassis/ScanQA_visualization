@@ -10,6 +10,7 @@ import LineMesh
 parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 # Couches are ideal for visualization. Examples of questions with couches: val-scene0019-42, val-scene0025-22, val-scene0050-20, val-scene0064-51, val-scene0081-51
 parser.add_argument("-q", "--question_id", metavar="STRING", help="The ID of the question for the visualization", type=str, default="val-scene0019-42")
+parser.add_argument("-p", "--predictions_path", metavar="STRING", help="The JSON file that contains the predictions", type=str, default="pred.val_ours.json")
 parser.add_argument("--ground_truth_color", metavar="STRING", help="The HEX color of the bounding box of the ground truth", type=lambda color_hex: [int(color_hex[index:index+2], 16)/255 for index in (1, 3, 5)], default="#00ff00")
 parser.add_argument("--prediction_color", metavar="STRING", help="The HEX color of the bounding box of the prediction", type=lambda color_hex: [int(color_hex[index:index+2], 16)/255 for index in (1, 3, 5)], default="#ff0000")
 parser.add_argument("-r", "--radius", metavar="FLOAT", help="The radius of the cylinders of the bounding box", type=int, default=0.05)
@@ -49,7 +50,7 @@ scene_PointCloud.colors = scene_rgb
 #     ground_truths_cylinders = [*ground_truths_cylinders, *ground_truth_cylinders]
 # open3d.visualization.draw_geometries([scene_PointCloud, *ground_truths_cylinders])
 
-with open("pred.val.json","r") as predictions_json:
+with open(args.predictions_path,"r") as predictions_json:
     predictions = json.load(predictions_json)
 
 # Find the prediction for the given question_id
